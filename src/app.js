@@ -1,4 +1,6 @@
 App = {
+  providerAddress: '0x54D492CeE3bF82B735498b40a818834d9c786C5e',
+  clientAddress: '0x986E4874D0fFaB15480801db3BdDe64FE886bD9A',
   contracts: {},
 
   load: async () => {
@@ -16,7 +18,7 @@ App = {
     App.contracts.LetMeIn = TruffleContract(contract)
     const provider = new Web3.providers.HttpProvider("http://localhost:7545");
     App.contracts.LetMeIn.setProvider(provider)
-    App.contracts.LetMeIn.defaults({ from: '0x1688d0d48C1E45C711f36B4fb03d3FA8975C4203' })
+    App.contracts.LetMeIn.defaults({ from: App.providerAddress })
     App.contract = await App.contracts.LetMeIn.deployed()
   },
 
@@ -25,54 +27,52 @@ App = {
     console.log('providerCount', providerCount)
   },
 
-  createAccess: async (address, expiry) => {
-    await App.contract.createAccess('0x76313a8170daA3C2B68517937c757Cb4505411c1', JSON.stringify({ expiry }))
+  createAccess: async (address, expiry, photoUrl) => {
+    console.log("asd: "+JSON.stringify({ expiry:expiry, photoUrl:photoUrl }))
+    await App.contract.createAccess(App.clientAddress, JSON.stringify({ expiry:expiry, photoUrl:photoUrl }))
     console.log('Created access...')
     await App.authorization()
   },
 
   authorization: async () => {
-    const authorization = await App.contract.authorization('0x76313a8170daA3C2B68517937c757Cb4505411c1')
-    console.log('authorization', authorization)
+    const authorization = await App.contract.authorization(App.clientAddress)
+    return authorization;
   },
 };
 
-function date2timestamp(myDate) {
-	return new Date(myDate).getTime()
-}
-
-function upload() {
-      const reader = new FileReader();
-      reader.onloadend = function() {
-        const ipfs = window.IpfsApi('localhost', 5001) // Connect to IPFS
-        const buf = buffer.Buffer(reader.result) // Convert data into buffer
-        ipfs.files.add(buf, (err, result) => { // Upload buffer to IPFS
-          if(err) {
-            console.error(err)
-            return
-          }
-          let url = `https://ipfs.io/ipfs/${result[0].hash}`
-          console.log(`Url --> ${url}`)
-          document.getElementById("url").innerHTML= url
-          document.getElementById("url").href= url
-          document.getElementById("output").src = url
-        })
-      }
-      const photo = document.getElementById("photo");
-      reader.readAsArrayBuffer(photo.files[0]); // Read Provided File
-}
 
 (function() {
 	App.load()
+  if(	document.getElementById("submit")) {
+  	document.getElementById("submit").addEventListener('click', async () => {
+  		const address = document.getElementById('address').value
+  		const expiry = Utils.date2timestamp(document.getElementById('expiry').value)
 
-	document.getElementById("submit").addEventListener('click', async () => {
-		const address = document.getElementById('address').value
-		const expiry = date2timestamp(document.getElementById('expiry').value)
-                upload()
 
-		//if(expiry && address) await App.createAccess(address, expiry)
-		//else alert('invalid inputs')
-	})
-	const photo = document.getElementById("photo");
-	reader.readAsArrayBuffer(photo.files[0]);
+  		if(expiry && address){
+        const photoUrl = IpfsModule.upload("photo", async (photoUrl)=> {
+          console.log("photoUrl: ", photoUrl);
+          await App.createAccess(address, expiry, photoUrl)
+        })
+
+      }
+  		else alert('invalid inputs')
+  	})
+  }
+  if(document.getElementById("submitVerification")) {
+    document.getElementById("submitVerification").addEventListener('click', async () => {
+
+      var auth = await App.authorization();
+
+  		if(Auth.checkPermissions(auth)){
+        var photoElement = document.getElementById("photo");
+        photo.src = Auth.getClientURLPhoto(auth);
+        photo.display = "block" ;
+      }else {
+        alert("User not Authorized");
+      }
+
+  	})
+  }
+
 })();
