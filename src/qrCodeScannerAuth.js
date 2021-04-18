@@ -4,34 +4,44 @@ const video = document.createElement("video");
 const canvasElement = document.getElementById("qr-canvas");
 const canvas = canvasElement.getContext("2d");
 
-const qrResult = document.getElementById("qr-result");
-const outputData = document.getElementById("address");
-const btnScanQR = document.getElementById("btn-scan-qr");
 
 let scanning = false;
-
-qrcode.callback = res => {
+const app = new App();
+qrcode.callback = ((res) => {
   if (res) {
-    outputData.value = res.split('ethereum:')[1];
-    scanning = false;
+    res = res.split('ethereum:')[1];
+    console.log(res);
+    //scanning = false;
+    console.log("asdsad");
 
-    video.srcObject.getTracks().forEach(track => {
-      track.stop();
-    });
+    (async function(){
+      const auth = await app.authorization(res);
+      console.log("asd");
+      if (Auth.checkPermissions(auth)) {
+        const photoElement = document.getElementById("photo");
+        console.log("auth:",auth);
+        photoElement.src = Auth.getClientURLPhoto(auth);
+        console.log("Auth.getClientURLPhoto(auth)", Auth.getClientURLPhoto(auth));
+        photoElement.display = "block";
+      } else {
+        window.alert("User not Authorized");
+      }
+      video.srcObject.getTracks().forEach(track => {
+        track.stop();
+      });
+      load();
+      //canvasElement.hidden = true;
+    })();
 
-    qrResult.hidden = false;
-    canvasElement.hidden = true;
-    btnScanQR.hidden = false;
+
   }
-};
-
-btnScanQR.onclick = () => {
+});
+function load(){
   navigator.mediaDevices
     .getUserMedia({ video: { facingMode: "environment" } })
     .then(function(stream) {
       scanning = true;
-      qrResult.hidden = true;
-      btnScanQR.hidden = true;
+
       canvasElement.hidden = false;
       video.setAttribute("playsinline", true); // required to tell iOS safari we don't want fullscreen
       video.srcObject = stream;
@@ -39,6 +49,10 @@ btnScanQR.onclick = () => {
       tick();
       scan();
     });
+}
+
+document.body.onload = () => {
+  load();
 };
 
 function tick() {

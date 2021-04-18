@@ -1,7 +1,7 @@
 const Auth = (function() {
   function checkPermissions(auth){
       var authObj = JSON.parse(auth);
-      console.log(authObj);
+      console.log("authObj", authObj);
 
       return true;
 
