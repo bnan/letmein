@@ -11,7 +11,8 @@
     "compile": "truffle compile",
     "migrate": "truffle migrate",
     "dev": "lite-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "prettier -w src/*.js"
   },
   "author": "",
   "license": "",
@@ -21,6 +22,7 @@
   },
   "dependencies": {
     "@truffle/contract": "^4.3.13",
-    "ipfs": "^0.54.4"
+    "ipfs": "^0.54.4",
+    "prettier": "^2.2.1"
   }
 }

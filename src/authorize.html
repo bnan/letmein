@@ -4,23 +4,52 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://wzrd.in/standalone/buffer"></script>
-    <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js"
-    integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
-    crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js" integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB" crossorigin="anonymous"></script>
     <title>Let Me In</title>
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <label for="address">Client Address:</label>
-    <input type="text" id="address">
-    <button type="button" id="submitVerification">Verify</button>
+    <header>
+      <h1>Let Me In</h1>
+    </header>
 
-    <img style="display: none, width: 200px; height: 400px" id="photo">
+    <h2>Authenticate to Gain Access</h2>
+    <div>
+      <label for="address">Client Address</label>
+      <input type="text" id="address">
+    </div>
+
+    <div>
+      <button type="button" id="submitVerification">Verify</button>
+    </div>
+
+    <div>
+      <img style="display: none" id="photo">
+    </div>
 
     <script src="vendor/@truffle/contract/dist/truffle-contract.min.js"></script>
     <script src="vendor/web3/dist/web3.min.js"></script>
     <script src="IpfsModule.js"></script>
     <script src="Auth.js"></script>
     <script src="app.js"></script>
-    <script src="main.js"></script>
+    <script>
+    (function () {
+      const app = new App();
+      const verification = document.getElementById("submitVerification");
+      if (verification) {
+        verification.addEventListener("click", async () => {
+          const auth = await app.authorization();
+
+          if (Auth.checkPermissions(auth)) {
+            const photo = document.getElementById("photo");
+            photo.src = Auth.getClientURLPhoto(auth);
+            photo.display = "block";
+          } else {
+            window.alert("User not Authorized");
+          }
+        });
+      }
+    })();
+    </script>
   </body>
 </html>
