@@ -10,18 +10,17 @@
     <title>Let Me In</title>
   </head>
   <body>
-    <label for="address">Address:</label>
+    <label for="address">Client Address:</label>
     <input type="text" id="address">
-    <label for="address">Expiry:</label>
-    <input type="date" id="expiry">
-    <input type="file" name="photo" id="photo">
-    <input type="submit" id="submit">
+    <button type="button" id="submitVerification">Verify</button>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <img style="display: none, width: 200px; height: 400px" id="photo">
+
     <script src="vendor/@truffle/contract/dist/truffle-contract.min.js"></script>
     <script src="vendor/web3/dist/web3.min.js"></script>
-    <script src="Utils.js"></script>
     <script src="IpfsModule.js"></script>
+    <script src="Auth.js"></script>
     <script src="app.js"></script>
+    <script src="main.js"></script>
   </body>
 </html>
