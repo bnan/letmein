@@ -1,6 +1,6 @@
 App = {
-  providerAddress: '0x1688d0d48C1E45C711f36B4fb03d3FA8975C4203',
-  clientAddress: '0x76313a8170daA3C2B68517937c757Cb4505411c1',
+  providerAddress: '0xF70c5332F7aE16c588F6689fc8998d3aae6ceFd5',
+  clientAddress: '0xC12AE3C32921C245aEe9d811d82c0C0F5E3C5CBb',
   blockchainRpcServer: 'http://localhost:7545',
   contracts: {},
 

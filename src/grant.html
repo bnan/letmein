@@ -7,6 +7,12 @@
     <script src="https://unpkg.com/ipfs-api@9.0.0/dist/index.js"
     integrity="sha384-5bXRcW9kyxxnSMbOoHzraqa7Z0PQWIao+cgeg327zit1hz5LZCEbIMx/LWKPReuB"
     crossorigin="anonymous"></script>
+
+    <script src="vendor/qr_packed.js">
+  </script>
+
+
+
     <title>Let Me In</title>
   </head>
   <body>
@@ -16,6 +22,21 @@
     <input type="date" id="expiry">
     <input type="file" name="photo" id="photo">
     <input type="submit" id="submit">
+    <div id="container">
+      <h1>QR Code Scanner</h1>
+
+      <a id="btn-scan-qr">
+          <img src="https://uploads.sitepoint.com/wp-content/uploads/2017/07/1499401426qr_icon.svg">
+      <a/>
+
+      <canvas hidden="" id="qr-canvas"></canvas>
+
+      <div id="qr-result" hidden="">
+          <b>Data:</b> <span id="outputData"></span>
+      </div>
+    </div>
+
+    <script src="qrCodeScanner.js"></script>
 
     <script src="vendor/@truffle/contract/dist/truffle-contract.min.js"></script>
     <script src="vendor/web3/dist/web3.min.js"></script>

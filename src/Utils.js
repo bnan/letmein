@@ -3,6 +3,8 @@ const Utils = (function (){
   	return new Date(myDate).getTime()
   }
 
+
+  
   return {
     date2timestamp: date2timestamp
   }
