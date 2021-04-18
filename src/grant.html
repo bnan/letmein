@@ -19,7 +19,17 @@
     <h2>Grant New Access</h2>
     <div>
       <label for="address">Address</label>
-      <input type="text" id="address">
+      <div id="container">
+
+        <button id="btn-scan-qr">Activate camera</button>
+
+        <canvas hidden="" id="qr-canvas"></canvas>
+
+      </div>
+
+      <div id="qr-result" hidden="">
+        <input type="text" id="address" readonly>
+      </div>
     </div>
 
     <div>
@@ -32,19 +42,8 @@
       <input type="file" id="photo">
     </div>
 
-    <div id="container">
-      <h1>QR Code Scanner</h1>
 
-      <a id="btn-scan-qr">
-          <img src="https://uploads.sitepoint.com/wp-content/uploads/2017/07/1499401426qr_icon.svg">
-      <a/>
 
-      <canvas hidden="" id="qr-canvas"></canvas>
-
-      <div id="qr-result" hidden="">
-          <b>Data:</b> <span id="outputData"></span>
-      </div>
-    </div>
     <div>
       <input type="submit" id="submit">
     </div>
