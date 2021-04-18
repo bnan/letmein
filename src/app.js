@@ -30,7 +30,7 @@ class App {
     console.log(`Authorized access ${JSON.stringify(this.authorization())}`);
   }
 
-  authorization: async () => {
+  async authorization() {
     return await App.contract.authorization(App.clientAddress)
-  },
+  }
 };
