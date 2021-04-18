@@ -31,6 +31,6 @@ class App {
   }
 
   async authorization() {
-    return await App.contract.authorization(App.clientAddress)
+    return await this.contract.authorization(App.clientAddress)
   }
 };
