@@ -28,6 +28,8 @@ class App {
     console.log(`Authorizing ${this.clientAddress} with ${permissions}`);
     await this.contract.createAccess(address || this.clientAddress, permissions);
     console.log(`Authorized access ${JSON.stringify(this.authorization())}`);
+    location.reload();
+
   }
 
   async authorization(address) {
