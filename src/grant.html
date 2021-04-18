@@ -24,15 +24,9 @@
 
     <h2>Grant New Access</h2>
     <div>
-      <label for="address">Address</label>
-      <div id="container">
-
-        <button id="btn-scan-qr">Activate camera</button>
-
-        <canvas hidden="" id="qr-canvas"></canvas>
-
-      </div>
-
+      <label for="address">QR Code</label>
+      <button id="btn-scan-qr">Read QR code</button>
+      <canvas hidden="" id="qr-canvas"></canvas>
       <div id="qr-result" hidden="">
         <input type="text" id="address" readonly>
       </div>
@@ -48,11 +42,10 @@
       <input type="file" id="photo">
     </div>
 
-
-
     <div>
       <input type="submit" id="submit">
     </div>
+
     <script src="qrCodeScanner.js"></script>
     <script src="vendor/@truffle/contract/dist/truffle-contract.min.js"></script>
     <script src="vendor/web3/dist/web3.min.js"></script>
